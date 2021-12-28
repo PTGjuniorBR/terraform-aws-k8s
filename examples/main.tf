@@ -1,8 +1,8 @@
 module "kubernetes" {
-  source = "scholzj/kubernetes/aws"
+  source = "terraform/kubernetes/aws"
 
-  aws_region    = "us-east-1"
-  cluster_name  = "ledivan-kubernetes"
+  aws_region    = "eu-west-1"
+  cluster_name  = "treinamento-terraform-kubernetes"
   master_instance_type = "t3.small"
   worker_instance_type = "t3.small"
   ssh_public_key = "~/.ssh/id_rsa.pub"
@@ -10,7 +10,7 @@ module "kubernetes" {
   api_access_cidr = ["0.0.0.0/0"]
   min_worker_count = 3
   max_worker_count = 6
-  hosted_zone = "ledivan.k8s.cvc.com.br"
+  hosted_zone = "treinamentogjunior.k8s.teste.pt"
   hosted_zone_private = true
 
   master_subnet_id = "subnet-0215597ea7af5b8cd"
@@ -22,7 +22,7 @@ module "kubernetes" {
 
   # Tags
   tags = {
-    Application = "AWS-Kubernetes"
+    Application = "AWS-Terraform-Kubernetes"
   }
 
   # Tags in a different format for Auto Scaling Group
@@ -36,10 +36,10 @@ module "kubernetes" {
   ]
 
   addons = [
-    "https://raw.githubusercontent.com/Marquesledivan/terraform-aws-k8s/master/addons/storage-class.yaml",
-    "https://raw.githubusercontent.com/Marquesledivan/terraform-aws-k8s/master/addons/heapster.yaml",
-    "https://raw.githubusercontent.com/Marquesledivan/terraform-aws-k8s/master/addons/dashboard.yaml",
-    "https://raw.githubusercontent.com/Marquesledivan/terraform-aws-k8s/master/addons/external-dns.yaml",
-    "https://raw.githubusercontent.com/Marquesledivan/terraform-aws-k8s/master/addons/autoscaler.yaml"
+    "https://raw.githubusercontent.com/PTGjuniorBR/terraform-aws-k8s/master/addons/storage-class.yaml",
+    "https://raw.githubusercontent.com/PTGjuniorBR/terraform-aws-k8s/master/addons/heapster.yaml",
+    "https://raw.githubusercontent.com/PTGjuniorBR/terraform-aws-k8s/master/addons/dashboard.yaml",
+    "https://raw.githubusercontent.com/PTGjuniorBR/terraform-aws-k8s/master/addons/external-dns.yaml",
+    "https://raw.githubusercontent.com/PTGjuniorBR/terraform-aws-k8s/master/addons/autoscaler.yaml"
   ]
 }

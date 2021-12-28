@@ -303,7 +303,7 @@ resource "aws_eip" "master" {
 resource "aws_instance" "master" {
     instance_type = "${var.master_instance_type}"
 
-    ami = "${data.aws_ami.ubuntu20.id}"
+    ami = "${data.aws_ami.centos7.id}"
 
     key_name = "${aws_key_pair.keypair.key_name}"
 
@@ -347,7 +347,7 @@ resource "aws_eip_association" "master_assoc" {
 
 resource "aws_launch_configuration" "nodes" {
   name_prefix   = "${var.cluster_name}-nodes-"
-  image_id      = "${data.aws_ami.ubuntu20.id}"
+  image_id      = "${data.aws_ami.centos7.id}"
   instance_type = "${var.worker_instance_type}"
   key_name = "${aws_key_pair.keypair.key_name}"
   iam_instance_profile = "${aws_iam_instance_profile.node_profile.name}"
@@ -412,9 +412,9 @@ data "aws_route53_zone" "dns_zone" {
 }
 
 resource "aws_route53_record" "master" {
-  zone_id = "Z1N6LXBHIMBIQH"
+  zone_id = join("", aws_route53_zone.dns_zone.*.id)
   name    = "${var.cluster_name}.${var.hosted_zone}"
-  type    = "A"
   records = ["${aws_eip.master.public_ip}"]
+  type    = "A"
   ttl     = 300
 }
